@@ -166,3 +166,27 @@ impl list_channel_ids(limit: int = 100) -> list[str] {
     }
     return ids;
 }
+
+impl list_workspaces -> list[dict[str, str]] {
+    out: list[dict[str, str]] = [];
+    for ws in [root -->[?:Workspace]] {
+        out.append({"id": jid(ws), "name": ws.name});
+    }
+    return out;
+}
+
+impl list_channels(workspace_id: str) -> list[dict[str, str]] {
+    ws = jobj(workspace_id);
+    out: list[dict[str, str]] = [];
+    if not isinstance(ws, Workspace) {
+        return out;
+    }
+    for ch in [ws ->:HasChannel:->[?:Channel]] {
+        out.append({
+            "id": jid(ch),
+            "name": ch.name,
+            "topic": ch.topic,
+        });
+    }
+    return out;
+}

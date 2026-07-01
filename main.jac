@@ -147,3 +147,11 @@ def post_reply(parent_message_id: str, author_username: str, content: str) -> st
 """Return the first N channel jids across all workspaces owned by the
 current Root — used by the sweep script to pick a target channel."""
 def list_channel_ids(limit: int = 100) -> list[str];
+
+"""Return every Workspace under the current Root as (id, name) rows —
+used by the frontend sidebar."""
+def list_workspaces -> list[dict[str, str]];
+
+"""Return every Channel under one Workspace as (id, name, topic) rows
+— used when the sidebar expands a workspace."""
+def list_channels(workspace_id: str) -> list[dict[str, str]];
