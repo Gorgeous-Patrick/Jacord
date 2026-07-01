@@ -1,0 +1,27 @@
+# Runtime artefacts
+logs/
+profiles/
+data/
+.jac/
+__pycache__/
+*.pyc
+
+# Sweep outputs
+sweep_prefetch_limit.csv
+sweep_*.log
+sweep_stdout.log
+access_log_*.csv
+hit_stats.png
+hit_count.png
+sweep_prefetch_limit.png
+
+# Mongodump
+jac_db.dump
+
+# Runner state
+sweep.pid
+
+# Editor
+.vscode/
+.idea/
+*.swp
