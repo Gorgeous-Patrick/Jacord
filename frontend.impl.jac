@@ -48,12 +48,9 @@ impl app.sendMessage -> None {
     if not text {
         return;
     }
-    author = localStorage.getItem("jacord_username") or "";
-    root spawn PostMessage(
-        channel_id=activeChannel.id,
-        author_username=author,
-        content=text,
-    );
+    # Author is derived server-side from the caller's User node; the
+    # client no longer sends `author_username`.
+    root spawn PostMessage(channel_id=activeChannel.id, content=text);
     composerText = "";
     refreshMessages();
 }
@@ -74,6 +71,31 @@ impl app.createChannelFlow(workspaceId: str) -> None {
     chs = result.reports[0] if result.reports else [];
     channelsByWs = {**channelsByWs, workspaceId: chs};
     expanded = {**expanded, workspaceId: True};
+}
+
+impl app.joinWorkspaceFlow -> None {
+    # v0: prompt for a workspace id (the sharable code).  The inviter
+    # copies it from their sidebar (a "Copy workspace ID" affordance is
+    # a later polish).
+    ws_id = prompt("Workspace ID:", "");
+    if not ws_id {
+        return;
+    }
+    ws_id = ws_id.strip();
+    if not ws_id {
+        return;
+    }
+    result = root spawn JoinWorkspace(workspace_id=ws_id);
+    joined_id = result.reports[0] if result.reports else "";
+    if not joined_id {
+        return;
+    }
+    # Refresh the sidebar so the new workspace appears.
+    loadWorkspaces();
+    expanded = {**expanded, joined_id: True};
+    result2 = root spawn ListChannels(workspace_id=joined_id);
+    chs = result2.reports[0] if result2.reports else [];
+    channelsByWs = {**channelsByWs, joined_id: chs};
 }
 
 impl app.createWorkspaceFlow -> None {

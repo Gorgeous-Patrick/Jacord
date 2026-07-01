@@ -104,6 +104,13 @@ html, body, #root {
 .jc-channel-active { background: var(--bg-3); color: white; font-weight: 500; }
 .jc-channel-add { color: var(--text-dim); font-style: italic; }
 .jc-channel-add:hover { color: var(--text); }
+.jc-workspace-id {
+    padding: 4px 10px; font-size: 11px; color: var(--text-dim);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    cursor: pointer; user-select: none;
+}
+.jc-workspace-id:hover { color: var(--text); }
+.jc-copy-hint { font-family: inherit; font-style: italic; }
 .jc-hash { color: var(--text-dim); font-weight: 500; }
 .jc-sidebar-footer {
     border-top: 1px solid var(--border); padding: 8px; display: flex; gap: 4px;

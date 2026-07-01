@@ -10,6 +10,7 @@ sv import from .server {
     EnsureUser,
     CreateWorkspace,
     CreateChannel,
+    JoinWorkspace,
     PostMessage,
     ListWorkspaces,
     ListChannels,
@@ -59,6 +60,7 @@ def:pub app -> JsxElement {
     async def refreshMessages -> None;
     async def sendMessage -> None;
     async def createWorkspaceFlow -> None;
+    async def joinWorkspaceFlow -> None;
     async def createChannelFlow(workspaceId: str) -> None;
     async def handleLogin -> None;
     async def handleSignup -> None;
@@ -106,6 +108,7 @@ def:pub app -> JsxElement {
                 onToggleWorkspace={toggleWorkspace}
                 onSelectChannel={selectChannel}
                 onNewWorkspace={createWorkspaceFlow}
+                onJoinWorkspace={joinWorkspaceFlow}
                 onNewChannel={createChannelFlow}
                 onLogout={handleLogout}
             />

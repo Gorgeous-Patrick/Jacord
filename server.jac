@@ -1,12 +1,18 @@
 """Jacord — Discord-lite chat backend.
 
-Graph shape (single-Root; auth user owns the whole graph):
+Graph shape (multi-user; Workspace lives under its creator's user root
+and is `grant`ed so any authenticated user can walk into it):
 
-    Root
-     └── Contains ── Workspace
-                     └── HasChannel ── Channel
-                                       └── Posted ── Message ── AuthoredBy ─→ User
-                                                     └── ReplyTo ─→ Message ── AuthoredBy ─→ User
+    creator_root
+     └── Contains ── Workspace ─── HasChannel ── Channel
+                       │                          └── Posted ── Message
+                       └── Member ─→ User (in that member's own root)
+                                                            │
+                                                            └── AuthoredBy ─→ User
+
+Every walker starts on the caller's root.  Cross-root traversal into a
+Workspace works because CreateWorkspace `grant`s the workspace + all of
+its child nodes at creation.
 
 All client-facing entry points are walkers so the client-side Jac can
 spawn them via `root spawn NAME(...)`.  See server.impl.jac for bodies.
@@ -41,9 +47,6 @@ node Channel {
 node Message {
     has content: str = "";
     has created_at: str = "";
-    has author_username: str = "";
-
-    def to_view -> MessageView;
 }
 
 # ---------------------------------------------------------------------------
@@ -55,6 +58,7 @@ edge HasChannel {}
 edge Posted {}
 edge ReplyTo {}
 edge AuthoredBy {}
+edge Member {}
 
 # ---------------------------------------------------------------------------
 # Wire types (imported by the client via `sv import from .server`)
@@ -83,8 +87,9 @@ obj ChannelView {
 # Walkers — all client-callable entry points
 # ---------------------------------------------------------------------------
 
-"""Ensure a User node exists for `username`.  Idempotent.  Reports the
-User's jid."""
+"""Ensure a User node exists for `username` under the caller's root.
+The User node is `grant`ed ReadPerm so other users can resolve authorship
+across roots.  Idempotent.  Reports the User's jid."""
 walker EnsureUser {
     has username: str,
         display_name: str = "";
@@ -92,15 +97,16 @@ walker EnsureUser {
     can run with Root entry;
 }
 
-"""Create a Workspace under the current Root.  Reports the new jid."""
+"""Create a Workspace under the caller's root, add the caller as first
+Member, and `grant` the workspace tree so other users can join it."""
 walker CreateWorkspace {
     has name: str;
 
     can run with Root entry;
 }
 
-"""Create a Channel under an existing Workspace.  Reports the new jid
-or "" if workspace_id was invalid."""
+"""Create a Channel under an existing Workspace.  Grants the channel so
+non-owner members can read its messages.  Reports the new jid or ""."""
 walker CreateChannel {
     has workspace_id: str,
         name: str,
@@ -109,26 +115,33 @@ walker CreateChannel {
     can run with Root entry;
 }
 
-"""Post a top-level message.  Reports the new jid."""
+"""Post a top-level message.  Author is derived from the caller's own
+User node (no client-provided username)."""
 walker PostMessage {
     has channel_id: str,
-        author_username: str,
         content: str;
 
     can run with Root entry;
 }
 
-"""Reply to an existing Message.  Reports the reply's jid."""
+"""Reply to an existing Message.  Author is derived from caller's root."""
 walker PostReply {
     has parent_message_id: str,
-        author_username: str,
         content: str;
 
     can run with Root entry;
 }
 
-"""List every Workspace under the current Root as WorkspaceView rows —
-the sidebar's top level."""
+"""Join a Workspace by id.  Adds a Member edge from the caller's User
+node to the Workspace.  No-op if the caller is already a member."""
+walker JoinWorkspace {
+    has workspace_id: str;
+
+    can run with Root entry;
+}
+
+"""List every Workspace the caller is a Member of, as WorkspaceView rows
+— walked from `[root-->User]-->Member-->Workspace`."""
 walker ListWorkspaces {
     can run with Root entry;
 }
@@ -142,7 +155,7 @@ walker ListChannels {
 }
 
 """Sweep helper — reports the first N channel jids across all
-workspaces so the benchmark can pick a random target."""
+workspaces the caller is a member of."""
 walker ListChannelIds {
     has limit: int = 100;
 
@@ -151,8 +164,8 @@ walker ListChannelIds {
 
 """The main walker — used by both the frontend "open channel" flow and
 the sweep_tool benchmark.  Reports list[MessageView] with author
-username inlined so the page render doesn't need per-message User
-fetches."""
+username resolved server-side via `[msg-->AuthoredBy-->User]` so the
+client doesn't need to fetch users separately."""
 walker load_channel {
     has channel_id: str = "",
         messages: list[MessageView] = [];

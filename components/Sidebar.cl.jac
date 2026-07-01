@@ -11,6 +11,7 @@ def:pub Sidebar(
     onToggleWorkspace: Callable[[str], None],
     onSelectChannel: Callable[[ChannelView], None],
     onNewWorkspace: Callable[[], None],
+    onJoinWorkspace: Callable[[], None],
     onNewChannel: Callable[[str], None],
     onLogout: Callable[[], None],
 ) -> JsxElement {
@@ -42,6 +43,15 @@ def:pub Sidebar(
                         </div>
                         {if (expanded.get(ws.id, False)) {
                             <div className="jc-channels">
+                                <div
+                                    className="jc-workspace-id"
+                                    title="Click to copy workspace ID"
+                                    onClick={lambda {
+                                        navigator.clipboard.writeText(ws.id);
+                                    }}
+                                >
+                                    ID: {ws.id[:8]}… <span className="jc-copy-hint">(copy)</span>
+                                </div>
                                 {for ch in (channelsByWs.get(ws.id, [])) {
                                     <div
                                         key={ch.id}
@@ -73,6 +83,7 @@ def:pub Sidebar(
             </div>
             <div className="jc-sidebar-footer">
                 <button className="jc-btn" onClick={onNewWorkspace}>+ Workspace</button>
+                <button className="jc-btn" onClick={onJoinWorkspace}>Join</button>
                 <button className="jc-btn" onClick={onLogout}>Sign out</button>
             </div>
         </div>;
