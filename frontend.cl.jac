@@ -46,10 +46,9 @@ def:pub app -> JsxElement {
 
     can with [isLoggedIn] entry {
         if isLoggedIn {
-            username = localStorage.getItem("jacord_username") or "";
-            if username {
-                root spawn EnsureUser(username=username, display_name=username);
-            }
+            # Fire-and-forget: `root spawn` here would be turned into
+            # `await` by the transpiler and useEffect's callback isn't
+            # async.  All bootstrap work goes through loadWorkspaces().
             loadWorkspaces();
         }
     }
@@ -60,6 +59,7 @@ def:pub app -> JsxElement {
     async def refreshMessages -> None;
     async def sendMessage -> None;
     async def createWorkspaceFlow -> None;
+    async def createChannelFlow(workspaceId: str) -> None;
     async def handleLogin -> None;
     async def handleSignup -> None;
     def handleLogout -> None;
@@ -106,6 +106,7 @@ def:pub app -> JsxElement {
                 onToggleWorkspace={toggleWorkspace}
                 onSelectChannel={selectChannel}
                 onNewWorkspace={createWorkspaceFlow}
+                onNewChannel={createChannelFlow}
                 onLogout={handleLogout}
             />
             <ChatPane

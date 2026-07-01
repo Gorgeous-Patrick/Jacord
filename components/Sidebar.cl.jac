@@ -11,6 +11,7 @@ def:pub Sidebar(
     onToggleWorkspace: Callable[[str], None],
     onSelectChannel: Callable[[ChannelView], None],
     onNewWorkspace: Callable[[], None],
+    onNewChannel: Callable[[str], None],
     onLogout: Callable[[], None],
 ) -> JsxElement {
     activeId = activeChannel.id if activeChannel else "";
@@ -35,13 +36,13 @@ def:pub Sidebar(
                             <span>{ws.name}</span>
                             <span className={(
                                 "jc-chevron jc-chevron-open"
-                                    if (expanded.get(ws.id) or False)
+                                    if (expanded.get(ws.id, False))
                                     else "jc-chevron"
                             )}>▶</span>
                         </div>
-                        {if (expanded.get(ws.id) or False) {
+                        {if (expanded.get(ws.id, False)) {
                             <div className="jc-channels">
-                                {for ch in (channelsByWs.get(ws.id) or []) {
+                                {for ch in (channelsByWs.get(ws.id, [])) {
                                     <div
                                         key={ch.id}
                                         className={(
@@ -54,11 +55,17 @@ def:pub Sidebar(
                                         <span className="jc-hash">#</span>{ch.name}
                                     </div>
                                 }}
-                                {if not (channelsByWs.get(ws.id) or []) {
+                                {if not (channelsByWs.get(ws.id, [])) {
                                     <div className="jc-channels-empty">
                                         (no channels)
                                     </div>
                                 }}
+                                <div
+                                    className="jc-channel jc-channel-add"
+                                    onClick={lambda { onNewChannel(ws.id); }}
+                                >
+                                    <span className="jc-hash">+</span>New channel
+                                </div>
                             </div>
                         }}
                     </div>

@@ -102,6 +102,8 @@ html, body, #root {
 }
 .jc-channel:hover { background: var(--hover); color: var(--text); }
 .jc-channel-active { background: var(--bg-3); color: white; font-weight: 500; }
+.jc-channel-add { color: var(--text-dim); font-style: italic; }
+.jc-channel-add:hover { color: var(--text); }
 .jc-hash { color: var(--text-dim); font-weight: 500; }
 .jc-sidebar-footer {
     border-top: 1px solid var(--border); padding: 8px; display: flex; gap: 4px;

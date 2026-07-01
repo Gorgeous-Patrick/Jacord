@@ -1,14 +1,21 @@
 """Jacord — client handler bodies."""
 
 impl app.loadWorkspaces -> None {
+    # Also ensures the current user has a User node so PostMessage's
+    # AuthoredBy lookup finds a target.  Idempotent.
+    username = localStorage.getItem("jacord_username") or "";
+    if username {
+        root spawn EnsureUser(username=username, display_name=username);
+    }
     result = root spawn ListWorkspaces();
     workspaces = result.reports[0] if result.reports else [];
 }
 
 impl app.toggleWorkspace(workspaceId: str) -> None {
-    now_open = not (expanded.get(workspaceId) or False);
+    # `.get(key, default)` with two args to avoid the `x ?? undefined || y`
+    # emission the transpiler does for `.get(key) or default`.
+    now_open = not expanded.get(workspaceId, False);
     expanded = {**expanded, workspaceId: now_open};
-    # Lazily fetch this workspace's channels the first time it's opened.
     if now_open and workspaceId not in channelsByWs {
         result = root spawn ListChannels(workspace_id=workspaceId);
         chs = result.reports[0] if result.reports else [];
@@ -49,6 +56,24 @@ impl app.sendMessage -> None {
     );
     composerText = "";
     refreshMessages();
+}
+
+impl app.createChannelFlow(workspaceId: str) -> None {
+    # v0: browser prompt for the channel name.  A proper inline
+    # input row belongs in a later iteration.
+    name = prompt("Channel name:", "");
+    if not name {
+        return;
+    }
+    name = name.strip();
+    if not name {
+        return;
+    }
+    root spawn CreateChannel(workspace_id=workspaceId, name=name, topic="");
+    result = root spawn ListChannels(workspace_id=workspaceId);
+    chs = result.reports[0] if result.reports else [];
+    channelsByWs = {**channelsByWs, workspaceId: chs};
+    expanded = {**expanded, workspaceId: True};
 }
 
 impl app.createWorkspaceFlow -> None {
