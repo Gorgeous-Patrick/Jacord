@@ -81,17 +81,15 @@ for i in $(seq 1 "$TRIALS"); do
     | python3 -c "import sys,json; print(json.load(sys.stdin)['data']['token'])")
 
   # Pick a random channel from the seeded set.
-  channel_id=$(curl -s -X POST "http://$base_url/function/list_channel_ids" \
+  channel_id=$(curl -s -X POST "http://$base_url/walker/ListChannelIds" \
     -H "Authorization: Bearer $token" \
     -H "Content-Type: application/json" \
     -d '{"limit": 100}' \
     | python3 -c "
 import json, sys, random
-data = json.load(sys.stdin)['data']['result']
-if not data:
-    print('', end='')
-else:
-    print(random.choice(data))
+reports = json.load(sys.stdin)['data'].get('reports') or []
+ids = reports[0] if reports else []
+print(random.choice(ids) if ids else '', end='')
 ")
 
   if [ -z "$channel_id" ]; then

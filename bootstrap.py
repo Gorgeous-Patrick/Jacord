@@ -151,14 +151,16 @@ def login(username: str = "admin", password: str = "password") -> str:
     return resp.json()["data"]["token"]
 
 
-def _call(token: str, name: str, params: dict) -> dict:
+def _call(token: str, walker: str, params: dict):
+    """Spawn a walker and return the first report value."""
     r = SESSION.post(
-        f"{BASE_URL}/function/{name}",
+        f"{BASE_URL}/walker/{walker}",
         json=params,
         headers={"Authorization": f"Bearer {token}"},
     )
     r.raise_for_status()
-    return r.json()["data"]["result"]
+    reports = r.json()["data"].get("reports") or []
+    return reports[0] if reports else None
 
 
 def seed(*, workspaces: int, channels: int, messages: int, users: int, seed_val: int) -> None:
@@ -171,7 +173,7 @@ def seed(*, workspaces: int, channels: int, messages: int, users: int, seed_val:
     usernames: list[str] = []
     for i in range(users):
         name = f"user_{i:04d}"
-        _call(token, "create_user", {"username": name, "display_name": f"User {i}"})
+        _call(token, "EnsureUser", {"username": name, "display_name": f"User {i}"})
         usernames.append(name)
 
     total_messages = 0
@@ -179,21 +181,21 @@ def seed(*, workspaces: int, channels: int, messages: int, users: int, seed_val:
 
     for w in range(workspaces):
         ws_name = f"workspace-{w:02d}"
-        ws_id = _call(token, "create_workspace", {"name": ws_name})
+        ws_id = _call(token, "CreateWorkspace", {"name": ws_name})
         print(f"  {ws_name}", end="", flush=True)
 
         for c in range(channels):
             ch_name = CHANNEL_NAMES[c % len(CHANNEL_NAMES)]
             topic = random.choice(TOPIC_TEMPLATES).format(name=ch_name, ws=ws_name)
             ch_id = _call(
-                token, "create_channel",
+                token, "CreateChannel",
                 {"workspace_id": ws_id, "name": ch_name, "topic": topic},
             )
 
             for m in range(messages):
                 author = random.choice(usernames)
                 msg_id = _call(
-                    token, "post_message",
+                    token, "PostMessage",
                     {
                         "channel_id": ch_id,
                         "author_username": author,
@@ -201,11 +203,10 @@ def seed(*, workspaces: int, channels: int, messages: int, users: int, seed_val:
                     },
                 )
                 total_messages += 1
-                # Heavy-tailed reply distribution.
                 for _ in range(_reply_count()):
                     reply_author = random.choice(usernames)
                     _call(
-                        token, "post_reply",
+                        token, "PostReply",
                         {
                             "parent_message_id": msg_id,
                             "author_username": reply_author,
