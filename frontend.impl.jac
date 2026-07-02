@@ -27,8 +27,11 @@ impl app.selectChannel(channel: ChannelView) -> None {
     activeChannel = channel;
     messagesLoading = True;
     messages = [];
-    result = root spawn load_channel(channel_id=channel.id);
-    messages = result.reports[0] if result.reports else [];
+    # Spawn directly on the Channel anchor: TTG sees a static edge-ref
+    # chain starting from Channel with no `jobj` lookup.  `result.reports`
+    # is now a flat list of MessageView (one per collected message).
+    result = channel.id spawn load_channel();
+    messages = result.reports if result.reports else [];
     messagesLoading = False;
 }
 
@@ -36,8 +39,8 @@ impl app.refreshMessages -> None {
     if activeChannel is None {
         return;
     }
-    result = root spawn load_channel(channel_id=activeChannel.id);
-    messages = result.reports[0] if result.reports else [];
+    result = activeChannel.id spawn load_channel();
+    messages = result.reports if result.reports else [];
 }
 
 impl app.sendMessage -> None {

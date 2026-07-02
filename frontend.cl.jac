@@ -12,8 +12,10 @@ sv import from .server {
     CreateChannel,
     JoinWorkspace,
     PostMessage,
+    PostReply,
     ListWorkspaces,
     ListChannels,
+    ListChannelIds,
     load_channel
 }
 sv import from .server { WorkspaceView, ChannelView, MessageView }

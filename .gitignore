@@ -25,3 +25,4 @@ sweep.pid
 .vscode/
 .idea/
 *.swp
+dumps/

@@ -216,25 +216,14 @@ impl ListChannelIds.run with Root entry {
 # load_channel — the "open channel" walker
 # ---------------------------------------------------------------------------
 
-impl load_channel.enter with Root entry {
-    target = jobj(self.channel_id);
-    if isinstance(target, Channel) {
-        visit [target];
-    }
-}
-
 impl load_channel.gather_messages with Channel entry {
     visit [->:Posted:->[?:Message]];
 }
 
 impl load_channel.collect_message with Message entry {
-    self.messages.append(_message_view(here));
+    report _message_view(here);
     # is_visit=True because this is a literal edge-ref inside a
-    # VisitStmt — TTG will recursively prefetch the reply chain up
-    # to prefetch_limit.
+    # VisitStmt — TTG recursively prefetches the reply chain up to
+    # prefetch_limit.
     visit [->:ReplyTo:->[?:Message]];
-}
-
-impl load_channel.deliver with Root exit {
-    report self.messages;
 }

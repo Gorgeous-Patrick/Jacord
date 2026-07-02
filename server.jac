@@ -162,16 +162,14 @@ walker ListChannelIds {
     can run with Root entry;
 }
 
-"""The main walker — used by both the frontend "open channel" flow and
-the sweep_tool benchmark.  Reports list[MessageView] with author
-username resolved server-side via `[msg-->AuthoredBy-->User]` so the
-client doesn't need to fetch users separately."""
+"""The main walker — spawned directly on a Channel anchor via
+`POST /walker/load_channel/<channel_jid>`.  No `jobj` lookup, no Root
+hop — the traversal is a pure static edge chain
+`Channel → Posted → Message → ReplyTo → Message`, which the TTG
+extractor sees fully.  Reports one MessageView per collected message
+(author username resolved server-side via `[msg-->AuthoredBy-->User]`)
+so `result.reports` is a flat list on the client."""
 walker load_channel {
-    has channel_id: str = "",
-        messages: list[MessageView] = [];
-
-    can enter with Root entry;
     can gather_messages with Channel entry;
     can collect_message with Message entry;
-    can deliver with Root exit;
 }

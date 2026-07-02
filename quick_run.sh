@@ -14,7 +14,7 @@ export base_url="localhost:8000"
 export JAC_PROFILE_DIR=${JAC_PROFILE_DIR:-profiles}
 
 TRIALS=${TRIALS:-3}
-TEST_USER=${TEST_USER:-admin}
+TEST_USER=${TEST_USER:-user_0000}
 TEST_PASSWORD=${TEST_PASSWORD:-password}
 WALKER=${WALKER:-load_channel}
 
@@ -100,11 +100,15 @@ print(random.choice(ids) if ids else '', end='')
     continue
   fi
 
+  # New endpoint shape: spawn directly on the Channel anchor.  Empty
+  # body — the anchor id lives in the URL path so TTG sees the walker
+  # start on Channel (static edge-ref chain) instead of doing a jobj
+  # lookup on Root.
   http_out=$(curl -s -w "%{http_code}\n%{time_total}" -o "$_tmpfile" -X POST \
     -H "Authorization: Bearer $token" \
     -H "Content-Type: application/json" \
-    -d "{\"channel_id\":\"$channel_id\"}" \
-    "http://$base_url/walker/$WALKER")
+    -d '{}' \
+    "http://$base_url/walker/$WALKER/$channel_id")
   http_status=$(echo "$http_out" | head -1)
   e2e_time=$(echo "$http_out" | tail -1)
   resp_size=$(wc -c < "$_tmpfile")
