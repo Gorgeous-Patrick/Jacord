@@ -34,6 +34,7 @@ import argparse
 import random
 import sys
 import time
+import uuid
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import requests
@@ -201,17 +202,61 @@ def wait_for_server(timeout: float = 30.0) -> None:
     sys.exit(1)
 
 
+def _looks_like_jid(s) -> bool:
+    """Cheap check that a walker's report is a UUID-shaped jid, not '' or None.
+
+    jac-scale returns jids in either 36-char hyphenated form
+    ('d5459-3f3-6ee8-4a9c-a177-1bbb6b516441') or 32-char hex form
+    ('3941e3d07c7b4595820da1464b10184e') depending on the codepath —
+    treat both as valid.
+    """
+    if not isinstance(s, str):
+        return False
+    try:
+        uuid.UUID(s)
+        return True
+    except (ValueError, AttributeError):
+        return False
+
+
 def _bootstrap_user(idx: int) -> Client:
-    """Register + login one user, create their User node + workspace."""
+    """Register + login one user, create their User node + workspace.
+
+    Under the multi-user bootstrap's threaded load, the tiered store can
+    briefly not surface EnsureUser's write to the next walker call on
+    the same root — CreateWorkspace then reports "" because `_me()`
+    returns None.  Retry the pair a few times and fail loud if the
+    inconsistency persists, so we don't silently seed a broken graph.
+    """
     c = Client(f"user_{idx:04d}", "password")
     c.register()
     c.login()
-    c.user_jid = c.call("EnsureUser", {
-        "username": c.username,
-        "display_name": f"User {idx}",
-    })
-    c.workspace_id = c.call("CreateWorkspace", {"name": f"workspace-{idx:02d}"})
-    return c
+
+    last_ensure = None
+    last_ws = None
+    for attempt in range(5):
+        c.user_jid = c.call("EnsureUser", {
+            "username": c.username,
+            "display_name": f"User {idx}",
+        })
+        last_ensure = c.user_jid
+        c.workspace_id = c.call("CreateWorkspace", {"name": f"workspace-{idx:02d}"})
+        last_ws = c.workspace_id
+        if _looks_like_jid(c.user_jid) and _looks_like_jid(c.workspace_id):
+            return c
+        # Widening backoff — gives the tiered store time to converge.
+        print(
+            f"    [warn] {c.username} attempt {attempt + 1}: "
+            f"user_jid={c.user_jid!r} workspace_id={c.workspace_id!r}, retrying",
+            file=sys.stderr,
+        )
+        time.sleep(0.15 * (attempt + 1))
+
+    raise RuntimeError(
+        f"{c.username}: EnsureUser/CreateWorkspace never converged after 5 tries "
+        f"(last user_jid={last_ensure!r}, workspace_id={last_ws!r}). "
+        "The graph seed would be inconsistent — refusing to continue."
+    )
 
 
 def seed(*, users: int, channels: int, messages: int, seed_val: int, workers: int) -> None:

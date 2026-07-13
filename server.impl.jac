@@ -32,7 +32,9 @@ def _message_view(msg: Message) -> MessageView {
         content=msg.content,
         author_username=_resolve_author(msg),
         created_at=msg.created_at,
-        reply_count=len([msg->:ReplyTo:->]),
+        # Replies point *at* their parent (reply +>:ReplyTo:+> parent) so
+        # the reply's own root is the write source; count incoming edges.
+        reply_count=len([msg<-:ReplyTo:<-]),
     );
 }
 
@@ -41,6 +43,12 @@ def _message_view(msg: Message) -> MessageView {
 # ---------------------------------------------------------------------------
 
 impl EnsureUser.run with Root entry {
+    # Give every other user WritePerm on this caller's root so any
+    # cross-root edge attach (Member / Posted / ReplyTo / AuthoredBy)
+    # can update this root's topology_index without a permission-denied
+    # warning + silent drop.  This is a benchmark dataset — collaboration
+    # is the whole point, isolation isn't.
+    grant(root, level=WritePerm);
     existing = _me();
     if existing is not None {
         if self.display_name {
@@ -55,9 +63,7 @@ impl EnsureUser.run with Root entry {
         created_at=_now(),
     );
     root ++> u;
-    # Other users need to read username / display_name when rendering
-    # authorship on messages posted to workspaces this user joins.
-    grant(u, level=ReadPerm);
+    grant(u, level=WritePerm);
     report jid(u);
 }
 
@@ -77,7 +83,9 @@ impl CreateWorkspace.run with Root entry {
     me +>: Member :+> ws;
     # ConnectPerm so other users can attach their own Member edges when
     # they call JoinWorkspace.  Also implies ReadPerm.
-    grant(ws, level=ConnectPerm);
+    # WritePerm for the same reason as Channel — cross-root Member
+    # attach in JoinWorkspace mutates ws's incoming-edge index.
+    grant(ws, level=WritePerm);
     report jid(ws);
 }
 
@@ -92,7 +100,11 @@ impl CreateChannel.run with Root entry {
     # Members post messages by attaching a `Posted` edge from the Channel
     # to a new Message — that requires CONNECT on the channel, not just
     # READ.  ConnectPerm implies ReadPerm.
-    grant(ch, level=ConnectPerm);
+    # WritePerm because cross-root edge attach (`msg +>:Posted:+> ch`
+    # from another user's PostMessage) mutates ch's incoming-edge index,
+    # not just its outgoing side.  ConnectPerm alone silently drops the
+    # edge (warning-only) in the current jac-scale build.
+    grant(ch, level=WritePerm);
     report jid(ch);
 }
 
@@ -112,10 +124,15 @@ impl PostMessage.run with Root entry {
         return;
     }
     msg = Message(content=self.content, created_at=_now());
-    ch +>: Posted :+> msg;
+    # Source-write rule: msg lives on caller's root (WRITE), channel is
+    # external with ConnectPerm.  Emit the edge from caller's side.
+    msg +>: Posted :+> ch;
     msg +>: AuthoredBy :+> me;
-    # ConnectPerm so other members can attach `ReplyTo` off this message.
-    grant(msg, level=ConnectPerm);
+    # ConnectPerm so other members can attach `ReplyTo` off this message
+    # (they're the source of that edge, msg is the CONNECT target).
+    # See CreateChannel: cross-root reply attach mutates msg's
+    # incoming-edge index, needs WRITE on the target.
+    grant(msg, level=WritePerm);
     report jid(msg);
 }
 
@@ -131,9 +148,11 @@ impl PostReply.run with Root entry {
         return;
     }
     reply = Message(content=self.content, created_at=_now());
-    parent +>: ReplyTo :+> reply;
+    # Reply is caller's (WRITE); parent may live on another user's root
+    # (has ConnectPerm from PostMessage).  Direction: reply → parent.
+    reply +>: ReplyTo :+> parent;
     reply +>: AuthoredBy :+> me;
-    grant(reply, level=ConnectPerm);
+    grant(reply, level=WritePerm);
     report jid(reply);
 }
 
@@ -217,13 +236,15 @@ impl ListChannelIds.run with Root entry {
 # ---------------------------------------------------------------------------
 
 impl load_channel.gather_messages with Channel entry {
-    visit [->:Posted:->[?:Message]];
+    # Messages point *at* the channel; walk incoming Posted.
+    visit [<-:Posted:<-[?:Message]];
 }
 
 impl load_channel.collect_message with Message entry {
     report _message_view(here);
+    # Replies point *at* their parent; walk incoming ReplyTo.
     # is_visit=True because this is a literal edge-ref inside a
     # VisitStmt — TTG recursively prefetches the reply chain up to
     # prefetch_limit.
-    visit [->:ReplyTo:->[?:Message]];
+    visit [<-:ReplyTo:<-[?:Message]];
 }

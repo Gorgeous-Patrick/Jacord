@@ -25,7 +25,10 @@ sleep 5
 
 if [ -f jac_db.dump ]; then
     echo "=== Restoring MongoDB from dump ==="
-    docker cp jac_db.dump mongodb:/tmp/jac_db.dump
+    # -L follows the symlink if `jac_db.dump` is a link to dumps/<name>.dump;
+    # without it, docker cp copies the link itself and mongorestore sees
+    # a broken path inside the container.
+    docker cp -L jac_db.dump mongodb:/tmp/jac_db.dump
     docker exec mongodb mongorestore --archive=/tmp/jac_db.dump --drop 2>&1 | tail -3
 else
     echo "=== No jac_db.dump — using whatever's currently in MongoDB ==="
