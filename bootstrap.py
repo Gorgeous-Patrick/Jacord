@@ -25,7 +25,13 @@ Usage:
     python3 bootstrap.py                        # medium
     python3 bootstrap.py --scale small
     python3 bootstrap.py --users 20 --channels 20 --messages 800
-    python3 bootstrap.py --workers 32           # more parallelism
+
+Note: --workers defaults to 1.  jac is not fully thread-safe — concurrent
+writes to a shared root race on the derived topology-index blob (last-writer
+wins on persist), silently dropping ~half the index edges.  The graph in
+`_anchors` stays correct, but TTG prefetch resolves against the index, so
+authors/replies go missing.  Raise --workers only if you don't rely on the
+topology index being consistent.
 """
 
 from __future__ import annotations
@@ -376,8 +382,10 @@ def main():
     p.add_argument("--users", type=int, help="override preset --users")
     p.add_argument("--channels", type=int, help="override preset --channels per workspace")
     p.add_argument("--messages", type=int, help="override preset --messages per channel")
-    p.add_argument("--workers", type=int, default=16,
-                   help="concurrent HTTP workers for the message-posting phase (default 16)")
+    p.add_argument("--workers", type=int, default=1,
+                   help="concurrent HTTP workers for the message-posting phase (default 1; "
+                        "jac is not fully thread-safe, so concurrent writes to a shared root "
+                        "can drop topology-index updates — keep at 1 for a consistent seed)")
     p.add_argument("--seed", type=int, default=42)
     args = p.parse_args()
 

@@ -9,7 +9,7 @@ access_log = ""
 topology_index = true
 prefetching = "ttg"
 prefetch_limit = 5000
-cross_root_resolve = false
+cross_root_resolve = true
 async_prefetch = "thread"
 prefetch_workers = 4
 
