@@ -1,19 +1,19 @@
 # Runtime artefacts
-logs/
-profiles/
+# logs/
+# profiles/
 data/
 .jac/
 __pycache__/
 *.pyc
 
 # Sweep outputs
-sweep_prefetch_limit.csv
-sweep_*.log
-sweep_stdout.log
-access_log_*.csv
-hit_stats.png
-hit_count.png
-sweep_prefetch_limit.png
+# sweep_prefetch_limit.csv
+# sweep_*.log
+# sweep_stdout.log
+# access_log_*.csv
+# hit_stats.png
+# hit_count.png
+# sweep_prefetch_limit.png
 
 # Mongodump
 jac_db.dump
