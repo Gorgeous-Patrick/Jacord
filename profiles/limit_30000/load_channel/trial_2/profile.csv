@@ -1,3 +1,3 @@
 node_num,edge_num,tweet_num,ttg_enabled,ttg_total_ms,topo_idx_ms,ttg_ms,prefetch_ms,walker_ms,resolve_total_ms
-,,,enabled,177.000,167.743,6.699,2.440,55.806,0.031
-,,,enabled,118.155,48.885,67.595,32.458,6509.579,29.760
+,,,enabled,161.633,154.002,5.375,3.291,50.777,0.029
+,,,enabled,103.903,45.424,56.695,31.026,6349.871,26.072

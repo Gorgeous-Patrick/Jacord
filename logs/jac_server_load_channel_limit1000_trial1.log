@@ -3,8 +3,8 @@ Building client bundle...
   ⏳ Building client bundle...
 
 
-  ✔ Client bundle built (1.2s)
-  ✔ Client bundle ready (3.5s)
+  ✔ Client bundle built (1.0s)
+  ✔ Client bundle ready (3.3s)
 INFO - Admin portal endpoints registered at /admin
 INFO - LLM telemetry: litellm not available, skipping litellm callback
 INFO - LLM telemetry: byllm not available, skipping agent callback
@@ -25,27 +25,27 @@ INFO - No emailer provider configured - email features disabled. Set [plugins.sc
 
   🚀 Server ready
 
-{"ts": "2026-07-15T05:35:28.212323Z", "level": "INFO", "service": "unknown", "trace_id": null, "msg": "127.0.0.1:59782 - \"GET /docs HTTP/1.1\" 200"}
-{"ts": "2026-07-15T05:35:28.421767Z", "level": "INFO", "service": "unknown", "trace_id": null, "msg": "127.0.0.1:59788 - \"POST /user/login HTTP/1.1\" 200"}
-{"ts": "2026-07-15T05:35:28.614403Z", "level": "INFO", "service": "unknown", "trace_id": "0c6a5b78-ebde-40e4-8aa9-bc707f0ffedc", "msg": "[trace=0c6a5b78] [TTG-DEBUG] topology_index: nodes=7429,edges=14854, topology_index_data=present"}
-{"ts": "2026-07-15T05:35:28.614634Z", "level": "INFO", "service": "unknown", "trace_id": "0c6a5b78-ebde-40e4-8aa9-bc707f0ffedc", "msg": "[trace=0c6a5b78] [TTG-EXTRACT] cache MISS for ListChannelIds, extracting from AST"}
-{"ts": "2026-07-15T05:35:28.615110Z", "level": "INFO", "service": "unknown", "trace_id": "0c6a5b78-ebde-40e4-8aa9-bc707f0ffedc", "msg": "[trace=0c6a5b78] [TTG-DEBUG] extracted 2 visits: [('from=Root', 'edge=Member', \"chain=[('Member', 'Workspace', 2)]\"), ('from=Root', 'edge=HasChannel', \"chain=[('HasChannel', 'Channel', 2)]\")]"}
-{"ts": "2026-07-15T05:35:28.619470Z", "level": "INFO", "service": "unknown", "trace_id": "0c6a5b78-ebde-40e4-8aa9-bc707f0ffedc", "msg": "[trace=0c6a5b78] [TTG] ast_ms=0.477  resolve_chain_total_ms=0.033  resolve_calls=2  avg_per_call_ms=0.0163  nodes_in_adj=14854  prefetched=1  nodes=1  edges=0"}
-{"ts": "2026-07-15T05:35:28.619658Z", "level": "INFO", "service": "unknown", "trace_id": "0c6a5b78-ebde-40e4-8aa9-bc707f0ffedc", "msg": "[trace=0c6a5b78] [TTG-COVERAGE] prefetched_by_type={'Root': 1}  index_by_type={'Root': 1, 'User': 1, 'Workspace': 1, 'Channel': 1, 'Message': 7425}  max_length=1000"}
-{"ts": "2026-07-15T05:35:28.619708Z", "level": "INFO", "service": "unknown", "trace_id": "0c6a5b78-ebde-40e4-8aa9-bc707f0ffedc", "msg": "[trace=0c6a5b78] [TTG-IS-VISIT-DBG] [('Root', False), ('Root', False)]"}
-{"ts": "2026-07-15T05:35:28.621416Z", "level": "INFO", "service": "unknown", "trace_id": "0c6a5b78-ebde-40e4-8aa9-bc707f0ffedc", "msg": "[trace=0c6a5b78] [PREFETCH] mode=thread workers=4 ids=1 dispatch_ms=0.40 gil_enabled=False"}
+{"ts": "2026-07-16T19:32:11.732003Z", "level": "INFO", "service": "unknown", "trace_id": null, "msg": "127.0.0.1:57256 - \"GET /docs HTTP/1.1\" 200"}
+{"ts": "2026-07-16T19:32:11.932910Z", "level": "INFO", "service": "unknown", "trace_id": null, "msg": "127.0.0.1:57258 - \"POST /user/login HTTP/1.1\" 200"}
+{"ts": "2026-07-16T19:32:12.127695Z", "level": "INFO", "service": "unknown", "trace_id": "1a7b6fda-f37b-49b6-bed5-9cd86624fb12", "msg": "[trace=1a7b6fda] [TTG-DEBUG] topology_index: nodes=7429,edges=14854, topology_index_data=present"}
+{"ts": "2026-07-16T19:32:12.127915Z", "level": "INFO", "service": "unknown", "trace_id": "1a7b6fda-f37b-49b6-bed5-9cd86624fb12", "msg": "[trace=1a7b6fda] [TTG-EXTRACT] cache MISS for ListChannelIds, extracting from AST"}
+{"ts": "2026-07-16T19:32:12.128281Z", "level": "INFO", "service": "unknown", "trace_id": "1a7b6fda-f37b-49b6-bed5-9cd86624fb12", "msg": "[trace=1a7b6fda] [TTG-DEBUG] extracted 2 visits: [('from=Root', 'edge=Member', \"chain=[('Member', 'Workspace', 2)]\"), ('from=Root', 'edge=HasChannel', \"chain=[('HasChannel', 'Channel', 2)]\")]"}
+{"ts": "2026-07-16T19:32:12.132246Z", "level": "INFO", "service": "unknown", "trace_id": "1a7b6fda-f37b-49b6-bed5-9cd86624fb12", "msg": "[trace=1a7b6fda] [TTG] ast_ms=0.372  resolve_chain_total_ms=0.031  resolve_calls=2  avg_per_call_ms=0.0154  nodes_in_adj=14854  prefetched=1  nodes=1  edges=0"}
+{"ts": "2026-07-16T19:32:12.132318Z", "level": "INFO", "service": "unknown", "trace_id": "1a7b6fda-f37b-49b6-bed5-9cd86624fb12", "msg": "[trace=1a7b6fda] [TTG-COVERAGE] prefetched_by_type={'Root': 1}  index_by_type={'Root': 1, 'User': 1, 'Workspace': 1, 'Channel': 1, 'Message': 7425}  max_length=1000"}
+{"ts": "2026-07-16T19:32:12.132344Z", "level": "INFO", "service": "unknown", "trace_id": "1a7b6fda-f37b-49b6-bed5-9cd86624fb12", "msg": "[trace=1a7b6fda] [TTG-IS-VISIT-DBG] [('Root', False), ('Root', False)]"}
+{"ts": "2026-07-16T19:32:12.135054Z", "level": "INFO", "service": "unknown", "trace_id": "1a7b6fda-f37b-49b6-bed5-9cd86624fb12", "msg": "[trace=1a7b6fda] [PREFETCH] mode=thread workers=4 ids=1 dispatch_ms=0.94 gil_enabled=False"}
 ['14f0f986b2b64b71b13df8414b2ff3b8']
-{"ts": "2026-07-15T05:35:28.680199Z", "level": "INFO", "service": "unknown", "trace_id": "0c6a5b78-ebde-40e4-8aa9-bc707f0ffedc", "msg": "[trace=0c6a5b78] [PREFETCH-WORKER-TIMES] [2.040115010458976]"}
-{"ts": "2026-07-15T05:35:28.694626Z", "level": "INFO", "service": "unknown", "trace_id": "0c6a5b78-ebde-40e4-8aa9-bc707f0ffedc", "msg": "[trace=0c6a5b78] [HIT-STATS-SERIES] [('prefetch_pre_write_shard=1', {'L1': 4, 'L2': 0, 'L3': 2, 'MISS': 0}), ('walker_done', {'L1': 6, 'L2': 0, 'L3': 5, 'MISS': 0}), ('request_done', {'L1': 6, 'L2': 0, 'L3': 5, 'MISS': 0})]"}
-{"ts": "2026-07-15T05:35:28.712723Z", "level": "INFO", "service": "unknown", "trace_id": null, "msg": "127.0.0.1:59792 - \"POST /walker/ListChannelIds HTTP/1.1\" 200"}
-{"ts": "2026-07-15T05:35:28.784072Z", "level": "INFO", "service": "unknown", "trace_id": "a72f712d-0cd5-4935-af2e-db38831d97b2", "msg": "[trace=a72f712d] [TTG-DEBUG] topology_index: nodes=7429,edges=14854, topology_index_data=present"}
-{"ts": "2026-07-15T05:35:28.784277Z", "level": "INFO", "service": "unknown", "trace_id": "a72f712d-0cd5-4935-af2e-db38831d97b2", "msg": "[trace=a72f712d] [TTG-EXTRACT] cache MISS for load_channel, extracting from AST"}
-{"ts": "2026-07-15T05:35:28.784531Z", "level": "INFO", "service": "unknown", "trace_id": "a72f712d-0cd5-4935-af2e-db38831d97b2", "msg": "[trace=a72f712d] [TTG-DEBUG] extracted 2 visits: [('from=Channel', 'edge=Posted', \"chain=[('Posted', 'Message', 1)]\"), ('from=Message', 'edge=ReplyTo', \"chain=[('ReplyTo', 'Message', 1)]\")]"}
-{"ts": "2026-07-15T05:35:28.789477Z", "level": "INFO", "service": "unknown", "trace_id": "a72f712d-0cd5-4935-af2e-db38831d97b2", "msg": "[trace=a72f712d] [TTG-BFS] cur_type=Channel from=Channel is_visit=True chain_results=2500 added=999 enqueued=999"}
-{"ts": "2026-07-15T05:35:28.790461Z", "level": "INFO", "service": "unknown", "trace_id": "a72f712d-0cd5-4935-af2e-db38831d97b2", "msg": "[trace=a72f712d] [TTG] ast_ms=0.255  resolve_chain_total_ms=0.872  resolve_calls=1  avg_per_call_ms=0.8723  nodes_in_adj=14854  prefetched=1000  nodes=1000  edges=0"}
-{"ts": "2026-07-15T05:35:28.790529Z", "level": "INFO", "service": "unknown", "trace_id": "a72f712d-0cd5-4935-af2e-db38831d97b2", "msg": "[trace=a72f712d] [TTG-COVERAGE] prefetched_by_type={'Channel': 1, 'Message': 999}  index_by_type={'Root': 1, 'User': 1, 'Workspace': 1, 'Channel': 1, 'Message': 7425}  max_length=1000"}
-{"ts": "2026-07-15T05:35:28.790565Z", "level": "INFO", "service": "unknown", "trace_id": "a72f712d-0cd5-4935-af2e-db38831d97b2", "msg": "[trace=a72f712d] [TTG-IS-VISIT-DBG] [('Channel', True), ('Message', True)]"}
-{"ts": "2026-07-15T05:35:28.792296Z", "level": "INFO", "service": "unknown", "trace_id": "a72f712d-0cd5-4935-af2e-db38831d97b2", "msg": "[trace=a72f712d] [PREFETCH] mode=thread workers=4 ids=1000 dispatch_ms=0.92 gil_enabled=False"}
+{"ts": "2026-07-16T19:32:12.190266Z", "level": "INFO", "service": "unknown", "trace_id": "1a7b6fda-f37b-49b6-bed5-9cd86624fb12", "msg": "[trace=1a7b6fda] [PREFETCH-WORKER-TIMES] [3.265732026193291]"}
+{"ts": "2026-07-16T19:32:12.205614Z", "level": "INFO", "service": "unknown", "trace_id": "1a7b6fda-f37b-49b6-bed5-9cd86624fb12", "msg": "[trace=1a7b6fda] [HIT-STATS-SERIES] [('prefetch_pre_write_shard=1', {'L1': 4, 'L2': 0, 'L3': 2, 'MISS': 0}), ('walker_done', {'L1': 6, 'L2': 0, 'L3': 5, 'MISS': 0}), ('request_done', {'L1': 6, 'L2': 0, 'L3': 5, 'MISS': 0})]"}
+{"ts": "2026-07-16T19:32:12.223059Z", "level": "INFO", "service": "unknown", "trace_id": null, "msg": "127.0.0.1:57264 - \"POST /walker/ListChannelIds HTTP/1.1\" 200"}
+{"ts": "2026-07-16T19:32:12.294847Z", "level": "INFO", "service": "unknown", "trace_id": "aa91ed85-aaf2-4a13-a209-bd889c2b111c", "msg": "[trace=aa91ed85] [TTG-DEBUG] topology_index: nodes=7429,edges=14854, topology_index_data=present"}
+{"ts": "2026-07-16T19:32:12.295047Z", "level": "INFO", "service": "unknown", "trace_id": "aa91ed85-aaf2-4a13-a209-bd889c2b111c", "msg": "[trace=aa91ed85] [TTG-EXTRACT] cache MISS for load_channel, extracting from AST"}
+{"ts": "2026-07-16T19:32:12.295297Z", "level": "INFO", "service": "unknown", "trace_id": "aa91ed85-aaf2-4a13-a209-bd889c2b111c", "msg": "[trace=aa91ed85] [TTG-DEBUG] extracted 2 visits: [('from=Channel', 'edge=Posted', \"chain=[('Posted', 'Message', 1)]\"), ('from=Message', 'edge=ReplyTo', \"chain=[('ReplyTo', 'Message', 1)]\")]"}
+{"ts": "2026-07-16T19:32:12.300152Z", "level": "INFO", "service": "unknown", "trace_id": "aa91ed85-aaf2-4a13-a209-bd889c2b111c", "msg": "[trace=aa91ed85] [TTG-BFS] cur_type=Channel from=Channel is_visit=True chain_results=2500 added=999 enqueued=999"}
+{"ts": "2026-07-16T19:32:12.301582Z", "level": "INFO", "service": "unknown", "trace_id": "aa91ed85-aaf2-4a13-a209-bd889c2b111c", "msg": "[trace=aa91ed85] [TTG] ast_ms=0.251  resolve_chain_total_ms=0.858  resolve_calls=1  avg_per_call_ms=0.8578  nodes_in_adj=14854  prefetched=1000  nodes=1000  edges=0"}
+{"ts": "2026-07-16T19:32:12.301619Z", "level": "INFO", "service": "unknown", "trace_id": "aa91ed85-aaf2-4a13-a209-bd889c2b111c", "msg": "[trace=aa91ed85] [TTG-COVERAGE] prefetched_by_type={'Channel': 1, 'Message': 999}  index_by_type={'Root': 1, 'User': 1, 'Workspace': 1, 'Channel': 1, 'Message': 7425}  max_length=1000"}
+{"ts": "2026-07-16T19:32:12.301643Z", "level": "INFO", "service": "unknown", "trace_id": "aa91ed85-aaf2-4a13-a209-bd889c2b111c", "msg": "[trace=aa91ed85] [TTG-IS-VISIT-DBG] [('Channel', True), ('Message', True)]"}
+{"ts": "2026-07-16T19:32:12.303884Z", "level": "INFO", "service": "unknown", "trace_id": "aa91ed85-aaf2-4a13-a209-bd889c2b111c", "msg": "[trace=aa91ed85] [PREFETCH] mode=thread workers=4 ids=1000 dispatch_ms=1.50 gil_enabled=False"}
 MessageView(id='af1a1bd8bf954a0aa1f21dcad88fa0c9', content='+1 to the above', author_username='user_0000', created_at='2026-07-14T21:25:41.430955+00:00', reply_count=0)
 MessageView(id='a4aadc7b44c4497da64f002aa46dd8bc', content='check this out: https://example.com/amkygvwo', author_username='user_0000', created_at='2026-07-14T21:25:41.447812+00:00', reply_count=0)
 MessageView(id='52300f146383457e870392b3fcdeeb35', content='anyone free for a quick call?', author_username='user_0000', created_at='2026-07-14T21:25:41.463560+00:00', reply_count=6)
@@ -7471,7 +7471,7 @@ MessageView(id='352e1b14efc64ecfa18b852c3d58049c', content="let's move this to a
 MessageView(id='8f02335dafee4147ae587bfb2075f2ac', content='any updates on this?', author_username='user_0000', created_at='2026-07-14T21:41:02.657625+00:00', reply_count=0)
 MessageView(id='f3b5841c8e484de78071af911f8b0072', content="let's move this to a call", author_username='user_0000', created_at='2026-07-14T21:41:02.840956+00:00', reply_count=0)
 MessageView(id='508ae7a36b8a42dbad0db601be2a2193', content='works on my machine', author_username='user_0000', created_at='2026-07-14T21:41:03.010242+00:00', reply_count=0)
-{"ts": "2026-07-15T05:35:36.614974Z", "level": "INFO", "service": "unknown", "trace_id": "a72f712d-0cd5-4935-af2e-db38831d97b2", "msg": "[trace=a72f712d] [PREFETCH-WORKER-TIMES] [8.685208013048396, 9.120947011979297, 8.632298005977646, 10.917384992353618]"}
-{"ts": "2026-07-15T05:35:37.069730Z", "level": "INFO", "service": "unknown", "trace_id": "a72f712d-0cd5-4935-af2e-db38831d97b2", "msg": "[trace=a72f712d] [HIT-STATS-SERIES] [('prefetch_pre_write_shard=250', {'L1': 3, 'L2': 2, 'L3': 0, 'MISS': 0}), ('prefetch_pre_write_shard=250', {'L1': 3, 'L2': 2, 'L3': 0, 'MISS': 0}), ('prefetch_pre_write_shard=250', {'L1': 3, 'L2': 2, 'L3': 0, 'MISS': 0}), ('prefetch_pre_write_shard=250', {'L1': 3, 'L2': 2, 'L3': 0, 'MISS': 0}), ('walker_done', {'L1': 34628, 'L2': 3, 'L3': 7425, 'MISS': 0}), ('request_done', {'L1': 34628, 'L2': 3, 'L3': 7425, 'MISS': 0})]"}
-{"ts": "2026-07-15T05:35:37.526310Z", "level": "INFO", "service": "unknown", "trace_id": null, "msg": "127.0.0.1:58352 - \"POST /walker/load_channel/14f0f986b2b64b71b13df8414b2ff3b8 HTTP/1.1\" 200"}
-{"ts": "2026-07-15T05:35:37.633125Z", "level": "WARNING", "service": "unknown", "trace_id": null, "msg": "drain: started (timeout=10.0s, inflight=0)"}
+{"ts": "2026-07-16T19:32:19.754412Z", "level": "INFO", "service": "unknown", "trace_id": "aa91ed85-aaf2-4a13-a209-bd889c2b111c", "msg": "[trace=aa91ed85] [PREFETCH-WORKER-TIMES] [6.928600021637976, 7.098788977600634, 7.195379992481321, 8.05559300351888]"}
+{"ts": "2026-07-16T19:32:20.203486Z", "level": "INFO", "service": "unknown", "trace_id": "aa91ed85-aaf2-4a13-a209-bd889c2b111c", "msg": "[trace=aa91ed85] [HIT-STATS-SERIES] [('prefetch_pre_write_shard=250', {'L1': 3, 'L2': 2, 'L3': 0, 'MISS': 0}), ('prefetch_pre_write_shard=250', {'L1': 3, 'L2': 2, 'L3': 0, 'MISS': 0}), ('prefetch_pre_write_shard=250', {'L1': 3, 'L2': 2, 'L3': 0, 'MISS': 0}), ('prefetch_pre_write_shard=250', {'L1': 3, 'L2': 2, 'L3': 0, 'MISS': 0}), ('walker_done', {'L1': 35589, 'L2': 41, 'L3': 6426, 'MISS': 0}), ('request_done', {'L1': 35589, 'L2': 41, 'L3': 6426, 'MISS': 0})]"}
+{"ts": "2026-07-16T19:32:20.662019Z", "level": "INFO", "service": "unknown", "trace_id": null, "msg": "127.0.0.1:57274 - \"POST /walker/load_channel/14f0f986b2b64b71b13df8414b2ff3b8 HTTP/1.1\" 200"}
+{"ts": "2026-07-16T19:32:20.768623Z", "level": "WARNING", "service": "unknown", "trace_id": null, "msg": "drain: started (timeout=10.0s, inflight=0)"}
