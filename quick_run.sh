@@ -13,7 +13,7 @@ set -e
 export base_url="localhost:8000"
 export JAC_PROFILE_DIR=${JAC_PROFILE_DIR:-profiles}
 
-TRIALS=${TRIALS:-3}
+TRIALS=${TRIALS:-40}
 TEST_USER=${TEST_USER:-user_0000}
 TEST_PASSWORD=${TEST_PASSWORD:-password}
 WALKER=${WALKER:-load_channel}
