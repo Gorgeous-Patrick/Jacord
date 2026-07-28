@@ -3,8 +3,8 @@ Building client bundle...
   ⏳ Building client bundle...
 
 
-  ✔ Client bundle built (1.0s)
-  ✔ Client bundle ready (3.0s)
+  ✔ Client bundle built (1.1s)
+  ✔ Client bundle ready (3.1s)
 INFO - Admin portal endpoints registered at /admin
 INFO - LLM telemetry: litellm not available, skipping litellm callback
 INFO - LLM telemetry: byllm not available, skipping agent callback
@@ -25,12 +25,12 @@ INFO - No emailer provider configured - email features disabled. Set [plugins.sc
 
   🚀 Server ready
 
-{"ts": "2026-07-28T22:20:31.551563Z", "level": "INFO", "service": "unknown", "trace_id": null, "msg": "127.0.0.1:56262 - \"GET /docs HTTP/1.1\" 200"}
-{"ts": "2026-07-28T22:20:31.749585Z", "level": "INFO", "service": "unknown", "trace_id": null, "msg": "127.0.0.1:56270 - \"POST /user/login HTTP/1.1\" 200"}
+{"ts": "2026-07-28T22:29:26.699261Z", "level": "INFO", "service": "unknown", "trace_id": null, "msg": "127.0.0.1:37340 - \"GET /docs HTTP/1.1\" 200"}
+{"ts": "2026-07-28T22:29:26.904185Z", "level": "INFO", "service": "unknown", "trace_id": null, "msg": "127.0.0.1:37342 - \"POST /user/login HTTP/1.1\" 200"}
 ['14f0f986b2b64b71b13df8414b2ff3b8']
-{"ts": "2026-07-28T22:20:31.881341Z", "level": "INFO", "service": "unknown", "trace_id": "15284b9e-ec5a-4a03-81ba-ad8ad4f5379c", "msg": "[trace=15284b9e] [PREFETCH-WORKER-TIMES] []"}
-{"ts": "2026-07-28T22:20:31.896372Z", "level": "INFO", "service": "unknown", "trace_id": "15284b9e-ec5a-4a03-81ba-ad8ad4f5379c", "msg": "[trace=15284b9e] [HIT-STATS-SERIES] [('walker_done', {'L1': 6, 'L2': 0, 'L3': 5, 'MISS': 0}), ('request_done', {'L1': 6, 'L2': 0, 'L3': 5, 'MISS': 0})]"}
-{"ts": "2026-07-28T22:20:31.914629Z", "level": "INFO", "service": "unknown", "trace_id": null, "msg": "127.0.0.1:56274 - \"POST /walker/ListChannelIds HTTP/1.1\" 200"}
+{"ts": "2026-07-28T22:29:27.026961Z", "level": "INFO", "service": "unknown", "trace_id": "16b2d920-3a82-46e0-aef4-2f9586425471", "msg": "[trace=16b2d920] [PREFETCH-WORKER-TIMES] []"}
+{"ts": "2026-07-28T22:29:27.042765Z", "level": "INFO", "service": "unknown", "trace_id": "16b2d920-3a82-46e0-aef4-2f9586425471", "msg": "[trace=16b2d920] [HIT-STATS-SERIES] [('walker_done', {'L1': 6, 'L2': 0, 'L3': 5, 'MISS': 0}), ('request_done', {'L1': 6, 'L2': 0, 'L3': 5, 'MISS': 0})]"}
+{"ts": "2026-07-28T22:29:27.060087Z", "level": "INFO", "service": "unknown", "trace_id": null, "msg": "127.0.0.1:37354 - \"POST /walker/ListChannelIds HTTP/1.1\" 200"}
 MessageView(id='af1a1bd8bf954a0aa1f21dcad88fa0c9', content='+1 to the above', author_username='user_0000', created_at='2026-07-14T21:25:41.430955+00:00', reply_count=0)
 MessageView(id='a4aadc7b44c4497da64f002aa46dd8bc', content='check this out: https://example.com/amkygvwo', author_username='user_0000', created_at='2026-07-14T21:25:41.447812+00:00', reply_count=0)
 MessageView(id='52300f146383457e870392b3fcdeeb35', content='anyone free for a quick call?', author_username='user_0000', created_at='2026-07-14T21:25:41.463560+00:00', reply_count=6)
@@ -7456,7 +7456,7 @@ MessageView(id='352e1b14efc64ecfa18b852c3d58049c', content="let's move this to a
 MessageView(id='8f02335dafee4147ae587bfb2075f2ac', content='any updates on this?', author_username='user_0000', created_at='2026-07-14T21:41:02.657625+00:00', reply_count=0)
 MessageView(id='f3b5841c8e484de78071af911f8b0072', content="let's move this to a call", author_username='user_0000', created_at='2026-07-14T21:41:02.840956+00:00', reply_count=0)
 MessageView(id='508ae7a36b8a42dbad0db601be2a2193', content='works on my machine', author_username='user_0000', created_at='2026-07-14T21:41:03.010242+00:00', reply_count=0)
-{"ts": "2026-07-28T22:20:39.463465Z", "level": "INFO", "service": "unknown", "trace_id": "3bfadd2d-d901-409f-9513-80987a6b24ed", "msg": "[trace=3bfadd2d] [PREFETCH-WORKER-TIMES] []"}
-{"ts": "2026-07-28T22:20:39.909850Z", "level": "INFO", "service": "unknown", "trace_id": "3bfadd2d-d901-409f-9513-80987a6b24ed", "msg": "[trace=3bfadd2d] [HIT-STATS-SERIES] [('walker_done', {'L1': 34627, 'L2': 3, 'L3': 7425, 'MISS': 0}), ('request_done', {'L1': 34627, 'L2': 3, 'L3': 7425, 'MISS': 0})]"}
-{"ts": "2026-07-28T22:20:40.357903Z", "level": "INFO", "service": "unknown", "trace_id": null, "msg": "127.0.0.1:56280 - \"POST /walker/load_channel/14f0f986b2b64b71b13df8414b2ff3b8 HTTP/1.1\" 200"}
-{"ts": "2026-07-28T22:20:40.458932Z", "level": "WARNING", "service": "unknown", "trace_id": null, "msg": "drain: started (timeout=10.0s, inflight=0)"}
+{"ts": "2026-07-28T22:29:34.477162Z", "level": "INFO", "service": "unknown", "trace_id": "ae793449-d764-4e0c-9d73-59d2c51276f7", "msg": "[trace=ae793449] [PREFETCH-WORKER-TIMES] []"}
+{"ts": "2026-07-28T22:29:34.913113Z", "level": "INFO", "service": "unknown", "trace_id": "ae793449-d764-4e0c-9d73-59d2c51276f7", "msg": "[trace=ae793449] [HIT-STATS-SERIES] [('walker_done', {'L1': 34627, 'L2': 3, 'L3': 7425, 'MISS': 0}), ('request_done', {'L1': 34627, 'L2': 3, 'L3': 7425, 'MISS': 0})]"}
+{"ts": "2026-07-28T22:29:35.364189Z", "level": "INFO", "service": "unknown", "trace_id": null, "msg": "127.0.0.1:37364 - \"POST /walker/load_channel/14f0f986b2b64b71b13df8414b2ff3b8 HTTP/1.1\" 200"}
+{"ts": "2026-07-28T22:29:35.464813Z", "level": "WARNING", "service": "unknown", "trace_id": null, "msg": "drain: started (timeout=10.0s, inflight=0)"}
