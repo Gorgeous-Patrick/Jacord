@@ -43,3 +43,28 @@ OK
   Trial 3: 8434.301ms  HTTP=200  resp=4042861bytes
     breakdown: topo=0.000ms ttg=0.000ms prefetch=0.000ms walker=7523.342ms
     hit rate: L1=82.3%  L1=34633 L2=3 L3=7430 MISS=0
+=== Done ===
+========================================
+Testing: prefetch_limit=500
+========================================
+=== Restarting docker compose ===
+ Container mongodb Stopping 
+ Container redis Stopping 
+ Container mongodb Stopped 
+ Container mongodb Removing 
+ Container mongodb Removed 
+ Container redis Stopped 
+ Container redis Removing 
+ Container redis Removed 
+ Network jacord_default Removing 
+ Network jacord_default Removed 
+ Network jacord_default Creating 
+ Network jacord_default Created 
+ Container redis Creating 
+ Container mongodb Creating 
+ Container redis Created 
+ Container mongodb Created 
+ Container mongodb Starting 
+ Container redis Starting 
+ Container redis Started 
+ Container mongodb Started 
